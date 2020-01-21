@@ -11,7 +11,12 @@
 
 (defn next-board [board]
   "Takes a board and returns the next setup"
-  (increase 0 board))
+  (let [size      (count board)
+        new-board (increase 0 board)
+        positions (count (set new-board))]
+    (if (= size positions)
+      new-board
+      (recur new-board))))
 
 (defn threatens? [x1 y1 x2 y2]
   "Returns true if two queens threaten each other"
