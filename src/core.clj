@@ -62,12 +62,17 @@
                            (when all? (recur (next-board board) (inc counter))))
        :else           (recur (next-board board) counter)))))
 
-(defn lazy-boards [board]
+;; Functional Solution
+
+(defn lazy-boards
+  "Returns a lazy seq of all boards that have each Quean on a different row"
+  [board]
   (lazy-seq
    (when-let [new-board (next-board board)]
      (cons board (lazy-boards new-board)))))
 
 (defn functional-start
+  "Filters all possible boards for solutions."
   ([rows] (functional-start rows false))
   ([rows all?]
    (let [board (vec (repeat rows 0))]
