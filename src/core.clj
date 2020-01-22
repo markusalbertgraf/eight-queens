@@ -5,6 +5,8 @@
 
 (set! *warn-on-reflection* true)
 
+;; Helpers
+
 (defn next-board*
   "Helper to find the next board setup"
   [pos board]
@@ -16,7 +18,7 @@
 (defn next-board
   "Takes a board and returns the next setup.
   Only return boards with all queens on different
-  y-positions.  This yealds a speedup of 10x."
+  y-positions.  This yields a speedup of 10x."
   [board]
   (let [size      (count board)
         new-board (next-board* 0 board)
@@ -49,10 +51,12 @@
             (= x2 (- size 1)))  board
        :else                    (recur (inc x1) (+ 2 x1) board)))))
 
-(defn recursive-start
+;; Recursive, sideeffecting Solution
+
+(defn recursive-queens
   "Takes the nr of rows of the board and returns the first solution.
-  With optionol second parameter all?, returns all solutions"
-  ([rows] (recursive-start rows false))
+  With optional second parameter all? returns all solutions"
+  ([rows] (recursive-queens rows false))
   ([rows all?]
    (loop [board   (vec (repeat rows 0))
           counter 1]
@@ -71,9 +75,10 @@
    (when-let [new-board (next-board board)]
      (cons board (lazy-boards new-board)))))
 
-(defn functional-start
-  "Filters all possible boards for solutions."
-  ([rows] (functional-start rows false))
+(defn functional-queens
+  "Filters all possible boards for solutions. Takes the number of rows and.
+  With optional second parameter all? returns all solutions"
+  ([rows] (functional-queens rows false))
   ([rows all?]
    (let [board (vec (repeat rows 0))]
      (if all?
@@ -81,6 +86,6 @@
        (some solved? (lazy-boards board))))))
 
 (comment
-  (time (recursive-start 8 true))
-  (time (println (functional-start 8 true)))
+  (time (recursive-queens 8 true))
+  (time (println (functional-queens 8 true)))
   )
