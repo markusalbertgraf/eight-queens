@@ -1,5 +1,5 @@
 (ns core
-  "Calculates positin of queens on a chess board with the number
+  "Calculates position of queens on a chess board with the number
   of queens equal to the number of rows of the board in which no
   queen threatens another queen.")
 
@@ -31,7 +31,7 @@
   (or (= y1 y2)
       (= (Math/abs ^Integer (- y1 y2))
          (Math/abs ^Integer (- x1 x2)))
-      (= x1 x2) ;; this sould be redundant but is here
+      (= x1 x2) ;; this sould be redundant but anyway
       )) 
 
 (defn solved?
