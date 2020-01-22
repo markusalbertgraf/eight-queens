@@ -30,10 +30,10 @@
 (defn threatens?
   "Returns true if two queens threaten each other"
   [x1 y1 x2 y2]
-  (or (= y1 y2)
+  (or (= y1 y2) ;; this should be filtered in next-board
       (= (Math/abs ^Integer (- y1 y2))
          (Math/abs ^Integer (- x1 x2)))
-      (= x1 x2) ;; this sould be redundant but anyway
+      (= x1 x2) ;; this should be impossible
       )) 
 
 (defn solved?
