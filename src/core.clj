@@ -46,13 +46,13 @@
        (threatens? x1 y1 x2 y2) false
        (< x2 (- size 1))        (recur x1 (inc x2) board)
        (and (= x1 (- size 2))
-            (= x2 (- size 1)))  true
+            (= x2 (- size 1)))  board
        :else                    (recur (inc x1) (+ 2 x1) board)))))
 
-(defn start
+(defn recursive-start
   "Takes the nr of rows of the board and returns the first solution.
   With optionol second parameter all?, returns all solutions"
-  ([rows] (start rows false))
+  ([rows] (recursive-start rows false))
   ([rows all?]
    (loop [board   (vec (repeat rows 0))
           counter 1]
@@ -62,5 +62,20 @@
                            (when all? (recur (next-board board) (inc counter))))
        :else           (recur (next-board board) counter)))))
 
+(defn lazy-boards [board]
+  (lazy-seq
+   (when-let [new-board (next-board board)]
+     (cons board (lazy-boards new-board)))))
+
+(defn functional-start
+  ([rows] (functional-start rows false))
+  ([rows all?]
+   (let [board (vec (repeat rows 0))]
+     (if all?
+       (filter solved? (lazy-boards board))
+       (some solved? (lazy-boards board))))))
+
 (comment
-  (time (start 8 true)))
+  (time (recursive-start 8 true))
+  (time (println (functional-start 8 true)))
+  )
