@@ -47,8 +47,7 @@
      (cond
        (threatens? x1 y1 x2 y2) false
        (< x2 (- size 1))        (recur x1 (inc x2) board)
-       (and (= x1 (- size 2))
-            (= x2 (- size 1)))  board
+       (= x1 (- size 2))        board
        :else                    (recur (inc x1) (+ 2 x1) board)))))
 
 ;; Recursive, sideeffecting Solution
@@ -89,3 +88,11 @@
   (time (recursive-queens 8 true))
   (time (println (functional-queens 8 true)))
   )
+
+
+
+
+
+
+
+
